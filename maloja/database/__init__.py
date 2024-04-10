@@ -963,13 +963,13 @@ def start_db():
 
 
 # Search for strings
-def db_search(query,type=None):
-	results = []
-	if type=="ARTIST":
-		results = sqldb.search_artist(query)
-	if type=="TRACK":
-		results = sqldb.search_track(query)
-	if type=="ALBUM":
-		results = sqldb.search_album(query)
+def db_search(query, type=None, max=None):
+    results = []
+    if type == "ARTIST":
+        results = sqldb.search_artist(query, max)
+    elif type == "TRACK":
+        results = sqldb.search_track(query, max)
+    elif type == "ALBUM":
+        results = sqldb.search_album(query, max)
 
-	return results
+    return results

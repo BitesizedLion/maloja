@@ -728,13 +728,13 @@ def rebuild(**keys):
 def search(**keys):
 	"""Internal Use Only"""
 	query = keys.get("query")
-	max_ = keys.get("max")
+	max_ = keys.get("max", None)
 	if max_ is not None: max_ = int(max_)
 	query = query.lower()
 
-	artists = database.db_search(query,type="ARTIST")
-	tracks = database.db_search(query,type="TRACK")
-	albums = database.db_search(query,type="ALBUM")
+	artists = database.db_search(query, type="ARTIST", max=max_)
+	tracks = database.db_search(query, type="TRACK", max=max_)
+	albums = database.db_search(query, type="ALBUM", max=max_)
 
 
 

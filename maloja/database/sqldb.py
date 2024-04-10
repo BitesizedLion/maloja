@@ -1666,30 +1666,39 @@ def get_scrobble(timestamp, include_internal=False, dbconn=None):
 
 @cached_wrapper
 @connection_provider
-def search_artist(searchterm,dbconn=None):
-	op = DB['artists'].select().where(
-		DB['artists'].c.name_normalized.ilike(normalize_name(f"%{searchterm}%"))
-	)
-	result = dbconn.execute(op).all()
+def search_artist(searchterm, max=None, dbconn=None):
+    op = DB['artists'].select().where(
+        DB['artists'].c.name_normalized.ilike(normalize_name(f"%{searchterm}%"))
+    )
+    if max is not None:
+        op = op.limit(max)
+        
+    result = dbconn.execute(op).all()
 
-	return [get_artist(row.id,dbconn=dbconn) for row in result]
+    return [get_artist(row.id, dbconn=dbconn) for row in result]
 
 @cached_wrapper
 @connection_provider
-def search_track(searchterm,dbconn=None):
+def search_track(searchterm, max=None, dbconn=None):
 	op = DB['tracks'].select().where(
 		DB['tracks'].c.title_normalized.ilike(normalize_name(f"%{searchterm}%"))
 	)
+	if max is not None:
+		op = op.limit(max)
+		
 	result = dbconn.execute(op).all()
 
 	return [get_track(row.id,dbconn=dbconn) for row in result]
 
 @cached_wrapper
 @connection_provider
-def search_album(searchterm,dbconn=None):
+def search_album(searchterm, max=None, dbconn=None):
 	op = DB['albums'].select().where(
 		DB['albums'].c.albtitle_normalized.ilike(normalize_name(f"%{searchterm}%"))
 	)
+	if max is not None:
+		op = op.limit(max)
+	
 	result = dbconn.execute(op).all()
 
 	return [get_album(row.id,dbconn=dbconn) for row in result]
